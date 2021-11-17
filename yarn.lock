@@ -524,6 +524,35 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@plasmicapp/host@0.0.35":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@plasmicapp/host/-/host-0.0.35.tgz#044eadd101ff2b906df6ccd7e09f8ecf5003db24"
+  integrity sha512-zAZ1LzjIy+zQj43LTzavkpbh35QQm86MqebXFyK8WYidfZUFZ2D7ECPttgulqX4fbI9T9a3RyMILCrRpnRBWyQ==
+  dependencies:
+    "@plasmicapp/preamble" "0.0.19"
+    window-or-global "^1.0.1"
+
+"@plasmicapp/loader-core@1.0.25":
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/@plasmicapp/loader-core/-/loader-core-1.0.25.tgz#a5cd896dd7468ce7d669324cd578702c407e12bf"
+  integrity sha512-R2hS03aeKI3At1uug94uDtK5enLw0+2GtBgx6YkCNCOQ8T/y/+IkSmU2IcTYzJUE4rguL4c4kQ/vRlwmF8bO6Q==
+  dependencies:
+    isomorphic-unfetch "^3.1.0"
+
+"@plasmicapp/loader-react@^1.0.35":
+  version "1.0.35"
+  resolved "https://registry.yarnpkg.com/@plasmicapp/loader-react/-/loader-react-1.0.35.tgz#a94c16d3ed8ab8dc8b475d54a2b3567a9adb17f0"
+  integrity sha512-Guf5R8NFB7b02kumA9+ELUjNGI6L/upSrQShrx8jFl/Kr39v+ROiKBmiYmsvmwl+5ut1bz70+WvFa0FioVKsYA==
+  dependencies:
+    "@plasmicapp/host" "0.0.35"
+    "@plasmicapp/loader-core" "1.0.25"
+    pascalcase "^1.0.0"
+
+"@plasmicapp/preamble@0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@plasmicapp/preamble/-/preamble-0.0.19.tgz#ac70f1cd49d303c9aee26bb2207809a2c2d30f78"
+  integrity sha512-/L5qGnEjqK6WJ1eDUwEsBCoQw/FbT6E2Vph6GqzafKcyabVfRm4xK53nlpvcd99UC01VIJBreRWVIwwapTLc1A==
+
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.21"
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.21.tgz#5de5a2385a35309427f6011992b544514d559aa1"
@@ -3146,6 +3175,14 @@ isomorphic-dompurify@^0.13.0:
     dompurify "^2.2.7"
     jsdom "^16.5.2"
 
+isomorphic-unfetch@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/isomorphic-unfetch/-/isomorphic-unfetch-3.1.0.tgz#87341d5f4f7b63843d468438128cb087b7c3e98f"
+  integrity sha512-geDJjpoZ8N0kWexiwkX8F9NkTsXhetLPVbZFQ+JTW239QNOwvB0gniuR1Wc6f0AMTn7/mFGyXvHTifrCp/GH8Q==
+  dependencies:
+    node-fetch "^2.6.1"
+    unfetch "^4.2.0"
+
 isomorphic-ws@4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/isomorphic-ws/-/isomorphic-ws-4.0.1.tgz#55fd4cd6c5e6491e76dc125938dd863f5cd4f2dc"
@@ -3995,6 +4032,11 @@ pascal-case@^3.1.2:
   dependencies:
     no-case "^3.0.4"
     tslib "^2.0.3"
+
+pascalcase@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-1.0.0.tgz#d2fd7d73f2969606d2b56e17f5261be41c43c381"
+  integrity sha512-BSExi0rRnCHReJys6NocaK+cfTXNinAegfWBvr0JD3hiaEG7Nuc7r0CIdOJunXrs8gU/sbHQ9dxVAtiVQisjmg==
 
 path-case@^3.0.4:
   version "3.0.4"
@@ -5356,6 +5398,11 @@ unbox-primitive@^1.0.1:
     has-symbols "^1.0.2"
     which-boxed-primitive "^1.0.2"
 
+unfetch@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/unfetch/-/unfetch-4.2.0.tgz#7e21b0ef7d363d8d9af0fb929a5555f6ef97a3be"
+  integrity sha512-F9p7yYCn6cIW9El1zi0HI6vqpeIvBsr3dSuRO6Xuppb1u5rXpCPmMvLSyECLhybr9isec8Ohl0hPekMVrEinDA==
+
 unified@^9.1.0:
   version "9.2.2"
   resolved "https://registry.yarnpkg.com/unified/-/unified-9.2.2.tgz#67649a1abfc3ab85d2969502902775eb03146975"
@@ -5607,6 +5654,11 @@ which@^2.0.1:
   integrity sha512-BLI3Tl1TW3Pvl70l3yq3Y64i+awpwXqsGBYWkkqMtnbXgrMD+yj7rhW0kuEDxzJaYXGjEW5ogapKNMEKNMjibA==
   dependencies:
     isexe "^2.0.0"
+
+window-or-global@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/window-or-global/-/window-or-global-1.0.1.tgz#dbe45ba2a291aabc56d62cf66c45b7fa322946de"
+  integrity sha1-2+RboqKRqrxW1iz2bEW3+jIpRt4=
 
 word-wrap@^1.2.3, word-wrap@~1.2.3:
   version "1.2.3"
