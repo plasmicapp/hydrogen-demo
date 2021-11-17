@@ -1,5 +1,5 @@
 import { repeatedElement } from "@plasmicapp/host";
-import { ProductProvider } from "@shopify/hydrogen";
+import { ProductProvider, flattenConnection } from "@shopify/hydrogen/client";
 import { useProducts } from "../hooks/data-contexts.client";
 
 export function ProductsList({ children }) {
@@ -8,7 +8,7 @@ export function ProductsList({ children }) {
   return (
     <>
       {(products ?? []).map((product, i) => (
-        <ProductProvider product={product}>
+        <ProductProvider product={product} initialVariantId={flattenConnection(product.variants)[0]?.id}>
           {repeatedElement(i === 0, children)}
         </ProductProvider>
       ))}

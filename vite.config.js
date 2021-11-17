@@ -7,4 +7,8 @@ import shopifyConfig from './shopify.config';
 export default defineConfig({
   plugins: [hydrogen(shopifyConfig)],
   optimizeDeps: {include: ['@headlessui/react']},
+  clearScreen: false,
+  server: {
+    hmr: false
+  }
 });

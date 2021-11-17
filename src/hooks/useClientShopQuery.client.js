@@ -1,4 +1,4 @@
-import { fetchBuilder, graphqlRequestBody, useQuery } from "@shopify/hydrogen";
+import { fetchBuilder, graphqlRequestBody, useQuery } from "@shopify/hydrogen/client";
 import shopifyConfig from '../../shopify.config';
 
 export function useClientShopQuery({

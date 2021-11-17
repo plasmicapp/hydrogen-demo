@@ -1,4 +1,4 @@
-import { useProduct, Image } from "@shopify/hydrogen";
+import { useProduct, Image } from "@shopify/hydrogen/client";
 
 export function ProductTitle({className}) {
   const product = useProduct();
@@ -31,7 +31,7 @@ export function ProductPriceCents({className}) {
 
   const cents = price == undefined ? 99 : Math.round(price % 1 * 100);
   return (
-    <div className={className}>{cents}</div>
+    <div className={className}>{`00${cents}`.slice(-2)}</div>
   );
 }
 
@@ -59,3 +59,13 @@ export function ProductImage({className}) {
 
   return <Image className={className} image={variant.image} />
 }
+
+export function ProductLink({className, children}) {
+  const product = useProduct();
+  console.log("YUP1");
+
+  return (
+    <Link className={className} to={`/plasmic/products/${product?.handle}`}>{children}</Link>
+  );
+}
+

@@ -524,34 +524,34 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@plasmicapp/host@0.0.35":
-  version "0.0.35"
-  resolved "https://registry.yarnpkg.com/@plasmicapp/host/-/host-0.0.35.tgz#044eadd101ff2b906df6ccd7e09f8ecf5003db24"
-  integrity sha512-zAZ1LzjIy+zQj43LTzavkpbh35QQm86MqebXFyK8WYidfZUFZ2D7ECPttgulqX4fbI9T9a3RyMILCrRpnRBWyQ==
+"@plasmicapp/host@^0.0.35-alpha.14+bf5f008":
+  version "0.0.35-alpha.14"
+  resolved "http://localhost:4873/@plasmicapp%2fhost/-/host-0.0.35-alpha.14.tgz#8dd6516c7ac36961a30403151fbc67a47c9d18ed"
+  integrity sha512-xmATy/XsT2lnAB59pTzdDtk7veNMTDIngxoMfMJJgn+jA6EyOFYCFzeMdGDk9QjmoRY3n0V1aDgLKXGHAsQgRQ==
   dependencies:
-    "@plasmicapp/preamble" "0.0.19"
+    "@plasmicapp/preamble" "^0.0.19-alpha.14+bf5f008"
     window-or-global "^1.0.1"
 
-"@plasmicapp/loader-core@1.0.25":
-  version "1.0.25"
-  resolved "https://registry.yarnpkg.com/@plasmicapp/loader-core/-/loader-core-1.0.25.tgz#a5cd896dd7468ce7d669324cd578702c407e12bf"
-  integrity sha512-R2hS03aeKI3At1uug94uDtK5enLw0+2GtBgx6YkCNCOQ8T/y/+IkSmU2IcTYzJUE4rguL4c4kQ/vRlwmF8bO6Q==
+"@plasmicapp/loader-core@^1.0.25-alpha.14+bf5f008":
+  version "1.0.25-alpha.14"
+  resolved "http://localhost:4873/@plasmicapp%2floader-core/-/loader-core-1.0.25-alpha.14.tgz#4fef42497023387385fe7bfdd70452879291ebea"
+  integrity sha512-tLj3KhgOvATgV42snSWgKm6F6wY/fWe8GaELjbnkzHvXv/BE+5cW7T36RjjNW2JEdNMZQxZ8ImnxTSVUNeirxA==
   dependencies:
     isomorphic-unfetch "^3.1.0"
 
-"@plasmicapp/loader-react@^1.0.35":
-  version "1.0.35"
-  resolved "https://registry.yarnpkg.com/@plasmicapp/loader-react/-/loader-react-1.0.35.tgz#a94c16d3ed8ab8dc8b475d54a2b3567a9adb17f0"
-  integrity sha512-Guf5R8NFB7b02kumA9+ELUjNGI6L/upSrQShrx8jFl/Kr39v+ROiKBmiYmsvmwl+5ut1bz70+WvFa0FioVKsYA==
+"@plasmicapp/loader-react@^1.0.35-alpha.14":
+  version "1.0.35-alpha.14"
+  resolved "http://localhost:4873/@plasmicapp%2floader-react/-/loader-react-1.0.35-alpha.14.tgz#81859052b1c15d869df1dbc859bf2734b2f042ba"
+  integrity sha512-3VdmQk4Ksfct93P1sOxy/bYAbTlv9rdvO0j75pTD9MM36gWLYT360FJj8Sgu7r6clJ9CBMPNCEIG1q5j4Ky73Q==
   dependencies:
-    "@plasmicapp/host" "0.0.35"
-    "@plasmicapp/loader-core" "1.0.25"
+    "@plasmicapp/host" "^0.0.35-alpha.14+bf5f008"
+    "@plasmicapp/loader-core" "^1.0.25-alpha.14+bf5f008"
     pascalcase "^1.0.0"
 
-"@plasmicapp/preamble@0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@plasmicapp/preamble/-/preamble-0.0.19.tgz#ac70f1cd49d303c9aee26bb2207809a2c2d30f78"
-  integrity sha512-/L5qGnEjqK6WJ1eDUwEsBCoQw/FbT6E2Vph6GqzafKcyabVfRm4xK53nlpvcd99UC01VIJBreRWVIwwapTLc1A==
+"@plasmicapp/preamble@^0.0.19-alpha.14+bf5f008":
+  version "0.0.19-alpha.14"
+  resolved "http://localhost:4873/@plasmicapp%2fpreamble/-/preamble-0.0.19-alpha.14.tgz#e8487b06caea9005cc43591431bb4927d22da075"
+  integrity sha512-cg1BBoDkbnd8BnlurSBhVC898wzF1f/CIpZLJeYlZ757CmzFxuYDKGVW7FkBBnxIVf5ijJtaMCRqZwYDzTXyIg==
 
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.21"

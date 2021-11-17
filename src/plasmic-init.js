@@ -1,7 +1,8 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-react";
 import { CollectionDescription, CollectionTitle } from "./components/CollectionParts.client";
-import { ProductCollection } from "./components/ProductCollection.client";
-import { ProductImage, ProductPrice, ProductPriceCents, ProductPriceDollars, ProductTitle } from "./components/ProductParts.client";
+import { ProductCollectionLoader } from "./components/ProductCollectionLoader.client";
+import { ProductDetailsLoader } from "./components/ProductDetailsLoader.client";
+import { ProductDescription, ProductImage, ProductLink, ProductPrice, ProductPriceCents, ProductPriceDollars, ProductTitle } from "./components/ProductParts.client";
 import { ProductsList } from "./components/ProductsList.client";
 
 export const PLASMIC = initPlasmicLoader({
@@ -14,10 +15,10 @@ export const PLASMIC = initPlasmicLoader({
 });
 
 PLASMIC.registerComponent(
-  ProductCollection, {
-    name: "ProductCollection",
+  ProductCollectionLoader, {
+    name: "ProductCollectionLoader",
     props: {
-      collectionName: {
+      collectionHandle: {
         type: "choice",
         options: ["freestyle-collection", "backcountry-collection"],
         defaultValue: "freestyle-collection"
@@ -25,6 +26,20 @@ PLASMIC.registerComponent(
       count: {
         type: "number",
         defaultValue: 6
+      },
+      children: "slot"
+    }
+  }
+);
+
+PLASMIC.registerComponent(
+  ProductDetailsLoader, {
+    name: "ProductDetailsLoader",
+    props: {
+      productHandle: {
+        type: "choice",
+        options: ["mail-it-in-freestyle-snowboard", "snowboard", "the-full-stack"],
+        defaultValue: "snowboard"
       },
       children: "slot"
     }
@@ -69,11 +84,26 @@ PLASMIC.registerComponent(
 );
 
 PLASMIC.registerComponent(
+  ProductDescription, {
+    name: "ProductDescription",
+    props: {}
+  }
+);
+
+PLASMIC.registerComponent(
   ProductImage, {
     name: "ProductImage",
     props: {}
   }
 );
+
+PLASMIC.registerComponent(
+  ProductLink, {
+    name: "ProductLink",
+    props: {}
+  }
+);
+
 
 PLASMIC.registerComponent(
   CollectionTitle, {

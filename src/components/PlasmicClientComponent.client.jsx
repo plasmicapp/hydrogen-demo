@@ -1,5 +1,5 @@
 import { PlasmicComponent, PlasmicRootProvider } from "@plasmicapp/loader-react";
-import { QueryProvider } from "@shopify/hydrogen";
+import { QueryProvider } from "@shopify/hydrogen/client";
 import { PLASMIC } from "../plasmic-init";
 
 export function PlasmicClientRoot({data, children}) {
