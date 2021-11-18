@@ -31,6 +31,7 @@ export const PLASMIC = initPlasmicLoader({
         'NNQaUIsOysgvICJrNGLEUq53Jl0SmOE0xy8L2Ti18qnndWpCGnPrCi2vEl89bgBVGt26HlrLi2bZQclOZTA',
     },
   ],
+  preview: true,
 });
 
 PLASMIC.registerComponent(ProductCollectionLoader, {
