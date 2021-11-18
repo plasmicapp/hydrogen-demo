@@ -8,7 +8,7 @@ export function ProductsList({ children }) {
   return (
     <>
       {(products ?? []).map((product, i) => (
-        <ProductProvider product={product} initialVariantId={flattenConnection(product.variants)[0]?.id}>
+        <ProductProvider key={product.handle} product={product} initialVariantId={flattenConnection(product.variants)[0]?.id}>
           {repeatedElement(i === 0, children)}
         </ProductProvider>
       ))}

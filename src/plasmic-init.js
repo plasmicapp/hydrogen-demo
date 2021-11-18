@@ -2,7 +2,7 @@ import { initPlasmicLoader } from "@plasmicapp/loader-react";
 import { CollectionDescription, CollectionTitle } from "./components/CollectionParts.client";
 import { ProductCollectionLoader } from "./components/ProductCollectionLoader.client";
 import { ProductDetailsLoader } from "./components/ProductDetailsLoader.client";
-import { ProductDescription, ProductImage, ProductLink, ProductPrice, ProductPriceCents, ProductPriceDollars, ProductTitle } from "./components/ProductParts.client";
+import { ProductDescription, ProductImage, ProductLink, ProductOptionName, ProductOptionsProvider, ProductOptionValueCheckboxWrapper, ProductOptionValuesProvider, ProductPrice, ProductPriceCents, ProductPriceDollars, ProductTitle } from "./components/ProductParts.client";
 import { ProductsList } from "./components/ProductsList.client";
 
 export const PLASMIC = initPlasmicLoader({
@@ -104,6 +104,40 @@ PLASMIC.registerComponent(
   }
 );
 
+PLASMIC.registerComponent(
+  ProductOptionsProvider, {
+    name: "ProductOptionsProvider",
+    props: {
+      children: "slot"
+    }
+  }
+);
+
+PLASMIC.registerComponent(
+  ProductOptionName, {
+    name: "ProductOptionName",
+    props: {
+    }
+  }
+);
+
+PLASMIC.registerComponent(
+  ProductOptionValuesProvider, {
+    name: "ProductOptionValuesProvider",
+    props: {
+      children: "slot"
+    }
+  }
+);
+
+PLASMIC.registerComponent(
+  ProductOptionValueCheckboxWrapper, {
+    name: "ProductOptionValueCheckboxWrapper",
+    props: {
+      children: "slot"
+    }
+  }
+);
 
 PLASMIC.registerComponent(
   CollectionTitle, {
