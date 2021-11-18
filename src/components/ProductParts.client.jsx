@@ -1,4 +1,5 @@
 import { useProduct, Image } from "@shopify/hydrogen/client";
+import { ProseHtml } from "./ProseHtml";
 
 export function ProductTitle({className}) {
   const product = useProduct();
@@ -38,7 +39,7 @@ export function ProductPriceCents({className}) {
 export function ProductDescription({className}) {
   const product = useProduct();
   return (
-    <div className={className} dangerouslySetInnerHTML={{__html: product?.descriptionHtml ?? "Description"}} />
+    <ProseHtml className={className} html={product?.descriptionHtml} />
   );
 }
 

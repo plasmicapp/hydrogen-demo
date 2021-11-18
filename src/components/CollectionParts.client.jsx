@@ -1,4 +1,5 @@
 import { useCollection } from "../hooks/data-contexts.client";
+import { ProseHtml } from "./ProseHtml";
 
 export function CollectionTitle({className}) {
   const collection = useCollection();
@@ -7,5 +8,5 @@ export function CollectionTitle({className}) {
 
 export function CollectionDescription({className}) {
   const collection = useCollection();
-  return <div className={className} dangerouslySetInnerHTML={{__html: collection?.descriptionHtml ?? "Description"}} />
+  return <ProseHtml className={className} html={collection?.descriptionHtml} />;
 }
