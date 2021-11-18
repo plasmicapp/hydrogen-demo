@@ -46,7 +46,15 @@ PLASMIC.registerComponent(ProductCollectionLoader, {
       type: 'number',
       defaultValue: 6,
     },
-    children: 'slot',
+    children: {
+      type: 'slot',
+      defaultValue: [
+        {
+          type: 'component',
+          component: 'ProductsList',
+        },
+      ],
+    },
   },
 });
 
