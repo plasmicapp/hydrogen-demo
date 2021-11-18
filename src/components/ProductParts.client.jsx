@@ -1,7 +1,9 @@
+import React from "react";
 import { repeatedElement } from "@plasmicapp/host";
-import { useProduct, Image } from "@shopify/hydrogen/client";
-import { ProductOptionContext, ProductOptionValueContext, useProductOption, useProductOptionValue } from "../hooks/data-contexts.client";
+import { useProduct, Image, MediaFile } from "@shopify/hydrogen/client";
+import { ProductMediaContext, ProductOptionContext, ProductOptionValueContext, useProductMedia, useProductOption, useProductOptionValue } from "../hooks/data-contexts.client";
 import { ProseHtml } from "./ProseHtml";
+import { Link } from "react-router-dom";
 
 export function ProductTitle({className}) {
   const product = useProduct();
@@ -53,16 +55,6 @@ function getPriceFloat(product) {
   return parseFloat(variant.priceV2.amount);
 }
 
-export function ProductImage({className}) {
-  const product = useProduct();
-  const variant = product?.variants?.[0];
-  if (!product || !variant || !variant.image) {
-    return <img className={className} />;
-  }
-
-  return <Image className={className} image={variant.image} />
-}
-
 export function ProductLink({className, children}) {
   const product = useProduct();
   return (
@@ -111,9 +103,46 @@ export function ProductOptionValueCheckboxWrapper({children}) {
   const selectedOptions = product?.selectedOptions ?? {};
   const option = useProductOption();
   const value = useProductOptionValue() ?? "Option1";
-  return React.cloneElement(React.Children.only(children), {
-    children: value,
-    isChecked: option ? selectedOptions[option.name] === value : false,
-    onChange: () => product?.setSelectedOption?.(option?.name, value)
-  });
+  if (React.Children.count(children) === 1) {
+    return React.cloneElement(React.Children.only(children), {
+      children: value,
+      isChecked: option ? selectedOptions[option.name] === value : false,
+      onChange: () => product?.setSelectedOption?.(option?.name, value)
+    });
+  } else {
+    return children;
+  }
 }
+
+export function ProductMedia({className}) {
+  const media = useProductMedia();
+  if (!media) {
+    return <img className={className} src="https://cdn.shopify.com/s/files/1/0551/4566/0472/products/hydrogen-morning.jpg" />;
+  }
+  return <MediaFile tabIndex="0" media={media} />;
+}
+
+export function PrimaryProductMediaProvider({children}) {
+  const product = useProduct();
+  const primaryMedia = product?.media?.[0];
+  return (
+    <ProductMediaContext.Provider value={primaryMedia}>
+      {children}
+    </ProductMediaContext.Provider>
+  );
+}
+
+export function SecondaryProductMediaProvider({children}) {
+  const product = useProduct();
+  const secondaryMedia = (product.media?.slice(1) ?? []).filter(m => !!m.image);
+  return (
+    <>
+      {secondaryMedia.map((media, i) => (
+        <ProductMediaContext.Provider value={media} key={i}>
+          {repeatedElement(i === 0, children)}
+        </ProductMediaContext.Provider>
+      ))}
+    </>
+  );
+}
+

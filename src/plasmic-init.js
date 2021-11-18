@@ -1,8 +1,9 @@
 import { initPlasmicLoader } from "@plasmicapp/loader-react";
+import { AddToCartButton, BuyNowButton } from "@shopify/hydrogen/client";
 import { CollectionDescription, CollectionTitle } from "./components/CollectionParts.client";
 import { ProductCollectionLoader } from "./components/ProductCollectionLoader.client";
 import { ProductDetailsLoader } from "./components/ProductDetailsLoader.client";
-import { ProductDescription, ProductImage, ProductLink, ProductOptionName, ProductOptionsProvider, ProductOptionValueCheckboxWrapper, ProductOptionValuesProvider, ProductPrice, ProductPriceCents, ProductPriceDollars, ProductTitle } from "./components/ProductParts.client";
+import { PrimaryProductMediaProvider, ProductDescription, ProductLink, ProductMedia, ProductOptionName, ProductOptionsProvider, ProductOptionValueCheckboxWrapper, ProductOptionValuesProvider, ProductPrice, ProductPriceCents, ProductPriceDollars, ProductTitle, SecondaryProductMediaProvider } from "./components/ProductParts.client";
 import { ProductsList } from "./components/ProductsList.client";
 
 export const PLASMIC = initPlasmicLoader({
@@ -91,16 +92,11 @@ PLASMIC.registerComponent(
 );
 
 PLASMIC.registerComponent(
-  ProductImage, {
-    name: "ProductImage",
-    props: {}
-  }
-);
-
-PLASMIC.registerComponent(
   ProductLink, {
     name: "ProductLink",
-    props: {}
+    props: {
+      children: "slot"
+    }
   }
 );
 
@@ -140,6 +136,31 @@ PLASMIC.registerComponent(
 );
 
 PLASMIC.registerComponent(
+  ProductMedia, {
+    name: "ProductMedia",
+    props: {}
+  }
+);
+
+PLASMIC.registerComponent(
+  PrimaryProductMediaProvider, {
+    name: "PrimaryProductMediaProvider",
+    props: {
+      children: "slot"
+    }
+  }
+);
+
+PLASMIC.registerComponent(
+  SecondaryProductMediaProvider, {
+    name: "SecondaryProductMediaProvider",
+    props: {
+      children: "slot"
+    }
+  }
+);
+
+PLASMIC.registerComponent(
   CollectionTitle, {
     name: "CollectionTitle",
     props: {}
@@ -153,4 +174,20 @@ PLASMIC.registerComponent(
   }
 );
 
-console.log("DONE REGISTERING 3 COMPONENTS");
+PLASMIC.registerComponent(
+  AddToCartButton, {
+    name: "AddToCartButton",
+    props: {
+      children: "slot"
+    }
+  }
+);
+
+PLASMIC.registerComponent(
+  BuyNowButton, {
+    name: "BuyNowButton",
+    props: {
+      children: "slot"
+    }
+  }
+);

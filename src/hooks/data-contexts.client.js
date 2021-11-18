@@ -19,3 +19,8 @@ export const ProductOptionValueContext = React.createContext();
 export function useProductOptionValue() {
   return React.useContext(ProductOptionValueContext);
 }
+
+export const ProductMediaContext = React.createContext();
+export function useProductMedia() {
+  return React.useContext(ProductMediaContext);
+}

@@ -7,6 +7,7 @@ export default function Page() {
   const {handle} = useParams();
   const {data: plasmicData} = useMaybePlasmicData([`/${handle}`]);
 
+  console.log("HANDLE", handle);
   if (!plasmicData) {
     return <NotFound />;
   }
