@@ -12,7 +12,6 @@ export const PLASMIC = initPlasmicLoader({
       token: "NNQaUIsOysgvICJrNGLEUq53Jl0SmOE0xy8L2Ti18qnndWpCGnPrCi2vEl89bgBVGt26HlrLi2bZQclOZTA"
     }
   ],
-  alwaysFresh: true
 });
 
 PLASMIC.registerComponent(
