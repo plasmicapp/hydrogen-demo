@@ -15,6 +15,15 @@ export const PLASMIC = initPlasmicLoader({
 });
 
 PLASMIC.registerComponent(
+  ProductsList, {
+    name: "ProductsList",
+    props: {
+      children: "slot"
+    }
+  }
+);
+
+PLASMIC.registerComponent(
   ProductCollectionLoader, {
     name: "ProductCollectionLoader",
     props: {
@@ -32,7 +41,7 @@ PLASMIC.registerComponent(
         defaultValue: [
           {
             type: 'component',
-            component: 'ProductsList',
+            name: 'ProductsList',
           },
         ],
       },
@@ -49,15 +58,6 @@ PLASMIC.registerComponent(
         options: ["mail-it-in-freestyle-snowboard", "snowboard", "the-full-stack"],
         defaultValue: "snowboard"
       },
-      children: "slot"
-    }
-  }
-);
-
-PLASMIC.registerComponent(
-  ProductsList, {
-    name: "ProductsList",
-    props: {
       children: "slot"
     }
   }
