@@ -28,8 +28,8 @@ export function useClientShopQuery({query, variables}) {
         promise = fetchBuilder(request)().then((data) => {
           result = data;
         });
-        throw promise;
       }
+      throw promise;
     };
   }
   return cache[key]();

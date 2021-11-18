@@ -14,29 +14,41 @@ import {Link} from 'react-router-dom';
 
 export function ProductTitle({className}) {
   const product = useProduct();
-  console.log('PRODUCT', product);
-  return <div className={className}>{product?.title ?? 'Product Title'}</div>;
+  return (
+    <div className={className}>{product?.title ?? "Product Title"}</div>
+  );
 }
 
-export function ProductPrice({className}) {
+export function ProductPrice({className, compareAt}) {
   const product = useProduct();
-  const price = getPriceFloat(product);
-  return <div className={className}>{price}</div>;
+  const price = getPriceFloat(product, compareAt);
+  return (
+    <div className={className}>{price}</div>
+  );
 }
 
-export function ProductPriceDollars({className}) {
+export function ProductPriceDollars({className, compareAt}) {
   const product = useProduct();
-  const price = getPriceFloat(product);
+  const price = getPriceFloat(product, compareAt);
   const dollars = price == undefined ? 49 : Math.round(price);
   return <div className={className}>{dollars}</div>;
 }
 
-export function ProductPriceCents({className}) {
+export function ProductPriceCents({className, compareAt}) {
   const product = useProduct();
-  const price = getPriceFloat(product);
+  const price = getPriceFloat(product, compareAt);
 
   const cents = price == undefined ? 99 : Math.round((price % 1) * 100);
   return <div className={className}>{`00${cents}`.slice(-2)}</div>;
+}
+
+export function VisibleIfHasCompareAtPrice({children}) {
+  const product = useProduct();
+  const variant = product?.selectedVariant ?? product?.variants?.[0];
+  if (variant && !!variant.compareAtPriceV2) {
+    return children;
+  }
+  return null;
 }
 
 export function ProductDescription({className}) {
@@ -44,12 +56,17 @@ export function ProductDescription({className}) {
   return <ProseHtml className={className} html={product?.descriptionHtml} />;
 }
 
-function getPriceFloat(product) {
-  const variant = product?.variants?.[0];
-  if (!variant || !variant.priceV2) {
+function getPriceFloat(product, compareAt=false) {
+  const variant = product?.selectedVariant ?? product?.variants?.[0];
+  if (!variant) {
     return undefined;
   }
-  return parseFloat(variant.priceV2.amount);
+
+  const priceV2 = compareAt ? variant.compareAtPriceV2 : variant.priceV2;
+  if (!priceV2) {
+    return undefined;
+  }
+  return parseFloat(priceV2.amount);
 }
 
 export function ProductLink({className, children}) {
@@ -129,8 +146,7 @@ export function ProductMedia({className}) {
 }
 
 export function PrimaryProductMediaProvider({children}) {
-  const product = useProduct();
-  const primaryMedia = product?.media?.[0];
+  const primaryMedia = usePrimaryProductMedia();
   return (
     <ProductMediaContext.Provider value={primaryMedia}>
       {children}
@@ -138,11 +154,35 @@ export function PrimaryProductMediaProvider({children}) {
   );
 }
 
-export function SecondaryProductMediaProvider({children}) {
+function usePrimaryProductMedia() {
   const product = useProduct();
-  const secondaryMedia = (product.media?.slice(1) ?? []).filter(
-    (m) => !!m.image,
-  );
+  const allImageMedias = useProductImageMedias();
+  if (!product) {
+    return undefined;
+  }
+  if (product.selectedVariant?.image) {
+    return {
+      mediaContentType: "IMAGE",
+      image: product.selectedVariant.image
+    };
+  } else {
+    return allImageMedias[0];
+  }
+}
+
+function useProductImageMedias() {
+  const product = useProduct();
+  return (product?.media ?? []).filter(m => !!m.image);
+}
+
+function useSecondaryProductMedias() {
+  const primaryMedia = usePrimaryProductMedia();
+  const allImageMedias = useProductImageMedias();
+  return allImageMedias.filter(m => m.image.id !== primaryMedia?.image?.id);
+}
+
+export function SecondaryProductMediaProvider({children}) {
+  const secondaryMedia = useSecondaryProductMedias();
   return (
     <>
       {secondaryMedia.map((media, i) => (
