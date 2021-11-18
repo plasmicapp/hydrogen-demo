@@ -1,26 +1,30 @@
-import { flattenConnection, ProductProvider, ProductProviderFragment } from "@shopify/hydrogen/client";
-import { useClientShopQuery } from "../hooks/useClientShopQuery.client";
+import {
+  flattenConnection,
+  ProductProvider,
+  ProductProviderFragment,
+} from '@shopify/hydrogen/client';
+import {useClientShopQuery} from '../hooks/useClientShopQuery.client';
 import gql from 'graphql-tag';
 
-export function ProductDetailsLoader({
-  productHandle, children
-}) {
+export function ProductDetailsLoader({productHandle, children}) {
   const {data} = useClientShopQuery({
     query: QUERY,
     variables: {
       handle: productHandle,
-      country: "US",
-    }
+      country: 'US',
+    },
   });
-  console.log("PRODUCT DATA", data);
+  console.log('PRODUCT DATA', data);
   const product = data.product;
   return (
-    <ProductProvider product={product} initialVariantId={flattenConnection(product.variants)[0]?.id}>
+    <ProductProvider
+      product={product}
+      initialVariantId={flattenConnection(product.variants)[0]?.id}
+    >
       {children}
     </ProductProvider>
   );
 }
-
 
 const QUERY = gql`
   query product(

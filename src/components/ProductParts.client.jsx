@@ -1,50 +1,47 @@
-import React from "react";
-import { repeatedElement } from "@plasmicapp/host";
-import { useProduct, Image, MediaFile } from "@shopify/hydrogen/client";
-import { ProductMediaContext, ProductOptionContext, ProductOptionValueContext, useProductMedia, useProductOption, useProductOptionValue } from "../hooks/data-contexts.client";
-import { ProseHtml } from "./ProseHtml";
-import { Link } from "react-router-dom";
+import React from 'react';
+import {repeatedElement} from '@plasmicapp/host';
+import {useProduct, Image, MediaFile} from '@shopify/hydrogen/client';
+import {
+  ProductMediaContext,
+  ProductOptionContext,
+  ProductOptionValueContext,
+  useProductMedia,
+  useProductOption,
+  useProductOptionValue,
+} from '../hooks/data-contexts.client';
+import {ProseHtml} from './ProseHtml';
+import {Link} from 'react-router-dom';
 
 export function ProductTitle({className}) {
   const product = useProduct();
-  console.log("PRODUCT", product);
-  return (
-    <div className={className}>{product?.title ?? "Product Title"}</div>
-  );
+  console.log('PRODUCT', product);
+  return <div className={className}>{product?.title ?? 'Product Title'}</div>;
 }
 
 export function ProductPrice({className}) {
   const product = useProduct();
   const price = getPriceFloat(product);
-  return (
-    <div className={className}>{price}</div>
-  );
+  return <div className={className}>{price}</div>;
 }
 
 export function ProductPriceDollars({className}) {
   const product = useProduct();
   const price = getPriceFloat(product);
   const dollars = price == undefined ? 49 : Math.round(price);
-  return (
-    <div className={className}>{dollars}</div>
-  );
+  return <div className={className}>{dollars}</div>;
 }
 
 export function ProductPriceCents({className}) {
   const product = useProduct();
   const price = getPriceFloat(product);
 
-  const cents = price == undefined ? 99 : Math.round(price % 1 * 100);
-  return (
-    <div className={className}>{`00${cents}`.slice(-2)}</div>
-  );
+  const cents = price == undefined ? 99 : Math.round((price % 1) * 100);
+  return <div className={className}>{`00${cents}`.slice(-2)}</div>;
 }
 
 export function ProductDescription({className}) {
   const product = useProduct();
-  return (
-    <ProseHtml className={className} html={product?.descriptionHtml} />
-  );
+  return <ProseHtml className={className} html={product?.descriptionHtml} />;
 }
 
 function getPriceFloat(product) {
@@ -58,16 +55,20 @@ function getPriceFloat(product) {
 export function ProductLink({className, children}) {
   const product = useProduct();
   return (
-    <Link className={className} to={`/plasmic/products/${product?.handle}`}>{children}</Link>
+    <Link className={className} to={`/plasmic/products/${product?.handle}`}>
+      {children}
+    </Link>
   );
 }
 
-export function ProductOptionsProvider({ children }) {
+export function ProductOptionsProvider({children}) {
   const product = useProduct();
-  const options = product?.options ?? [{
-    name: "Fake Option",
-    values: ["Option1", "Option2"]
-  }];
+  const options = product?.options ?? [
+    {
+      name: 'Fake Option',
+      values: ['Option1', 'Option2'],
+    },
+  ];
   return (
     <>
       {options.map((option, i) => (
@@ -81,12 +82,12 @@ export function ProductOptionsProvider({ children }) {
 
 export function ProductOptionName({className}) {
   const option = useProductOption();
-  return <div className={className}>{option?.name ?? "Option"}</div>;
+  return <div className={className}>{option?.name ?? 'Option'}</div>;
 }
 
 export function ProductOptionValuesProvider({children}) {
   const option = useProductOption();
-  const values = option?.values ?? ["Option1", "Option2"];
+  const values = option?.values ?? ['Option1', 'Option2'];
   return (
     <>
       {values.map((value, i) => (
@@ -102,12 +103,12 @@ export function ProductOptionValueCheckboxWrapper({children}) {
   const product = useProduct();
   const selectedOptions = product?.selectedOptions ?? {};
   const option = useProductOption();
-  const value = useProductOptionValue() ?? "Option1";
+  const value = useProductOptionValue() ?? 'Option1';
   if (React.Children.count(children) === 1) {
     return React.cloneElement(React.Children.only(children), {
       children: value,
       isChecked: option ? selectedOptions[option.name] === value : false,
-      onChange: () => product?.setSelectedOption?.(option?.name, value)
+      onChange: () => product?.setSelectedOption?.(option?.name, value),
     });
   } else {
     return children;
@@ -117,7 +118,12 @@ export function ProductOptionValueCheckboxWrapper({children}) {
 export function ProductMedia({className}) {
   const media = useProductMedia();
   if (!media) {
-    return <img className={className} src="https://cdn.shopify.com/s/files/1/0551/4566/0472/products/hydrogen-morning.jpg" />;
+    return (
+      <img
+        className={className}
+        src="https://cdn.shopify.com/s/files/1/0551/4566/0472/products/hydrogen-morning.jpg"
+      />
+    );
   }
   return <MediaFile tabIndex="0" media={media} />;
 }
@@ -134,7 +140,9 @@ export function PrimaryProductMediaProvider({children}) {
 
 export function SecondaryProductMediaProvider({children}) {
   const product = useProduct();
-  const secondaryMedia = (product.media?.slice(1) ?? []).filter(m => !!m.image);
+  const secondaryMedia = (product.media?.slice(1) ?? []).filter(
+    (m) => !!m.image,
+  );
   return (
     <>
       {secondaryMedia.map((media, i) => (
@@ -145,4 +153,3 @@ export function SecondaryProductMediaProvider({children}) {
     </>
   );
 }
-

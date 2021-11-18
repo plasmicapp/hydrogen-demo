@@ -1,6 +1,9 @@
 import {useParams} from 'react-router-dom';
-import { usePlasmicData } from '../../../hooks/usePlasmicData';
-import { PlasmicClientComponent, PlasmicClientRoot } from '../../../components/PlasmicClientComponent.client';
+import {usePlasmicData} from '../../../hooks/usePlasmicData';
+import {
+  PlasmicClientComponent,
+  PlasmicClientRoot,
+} from '../../../components/PlasmicClientComponent.client';
 
 export default function ProductPage() {
   const {handle} = useParams();
@@ -8,12 +11,12 @@ export default function ProductPage() {
 
   return (
     <PlasmicClientRoot data={plasmicData}>
-      <PlasmicClientComponent 
-        component={plasmicData.entryCompMetas[0].name} 
+      <PlasmicClientComponent
+        component={plasmicData.entryCompMetas[0].name}
         componentProps={{
           productLoader: {
-            productHandle: handle
-          }
+            productHandle: handle,
+          },
         }}
       />
     </PlasmicClientRoot>

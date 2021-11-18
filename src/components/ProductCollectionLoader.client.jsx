@@ -1,20 +1,28 @@
-import { flattenConnection, 
+import {
+  flattenConnection,
   MediaFileFragment,
-  ProductProviderFragment, } from "@shopify/hydrogen/client";
+  ProductProviderFragment,
+} from '@shopify/hydrogen/client';
 import gql from 'graphql-tag';
-import { CollectionContext, ProductsContext } from "../hooks/data-contexts.client";
-import { useClientShopQuery } from "../hooks/useClientShopQuery.client";
+import {
+  CollectionContext,
+  ProductsContext,
+} from '../hooks/data-contexts.client';
+import {useClientShopQuery} from '../hooks/useClientShopQuery.client';
 
 export function ProductCollectionLoader({
-  collectionHandle, count, className, children
+  collectionHandle,
+  count,
+  className,
+  children,
 }) {
   const {data} = useClientShopQuery({
     query: QUERY,
     variables: {
       handle: collectionHandle,
-      country: "US",
-      numProducts: count
-    }
+      country: 'US',
+      numProducts: count,
+    },
   });
   const products = flattenConnection(data.collection.products);
   return (

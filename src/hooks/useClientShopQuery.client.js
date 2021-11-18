@@ -1,14 +1,12 @@
-import { fetchBuilder, graphqlRequestBody } from "@shopify/hydrogen/client";
+import {fetchBuilder, graphqlRequestBody} from '@shopify/hydrogen/client';
 import shopifyConfig from '../../shopify.config';
 
 const cache = {};
 
-export function useClientShopQuery({
-  query, variables
-}) {
-  const {storeDomain, storefrontToken, graphqlApiVersion } = shopifyConfig;
+export function useClientShopQuery({query, variables}) {
+  const {storeDomain, storefrontToken, graphqlApiVersion} = shopifyConfig;
   const body = graphqlRequestBody(query, variables);
-  
+
   const key = `${storeDomain}-${graphqlApiVersion}-${body}`;
   if (!(key in cache)) {
     let promise;
@@ -27,7 +25,7 @@ export function useClientShopQuery({
           },
           body,
         });
-        promise = fetchBuilder(request)().then(data => {
+        promise = fetchBuilder(request)().then((data) => {
           result = data;
         });
         throw promise;

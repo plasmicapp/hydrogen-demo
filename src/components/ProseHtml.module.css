@@ -6,7 +6,8 @@
   margin-top: 0;
 }
 
-.root ul, .root ol {
+.root ul,
+.root ol {
   padding: unset;
   margin: unset;
   margin-top: 1.25em;
@@ -21,7 +22,7 @@
 }
 
 .root li::before {
-  content: "";
+  content: '';
   position: absolute;
   background-color: #111827;
   border-radius: 50%;

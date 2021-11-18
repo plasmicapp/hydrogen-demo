@@ -11,6 +11,5 @@ export default defineConfig({
   server: {
     // yup
     hmr: false,
-
-  }
+  },
 });
