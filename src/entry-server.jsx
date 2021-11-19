@@ -1,14 +1,14 @@
-import { PlasmicRemoteChangeWatcher } from '@plasmicapp/watcher';
+import {PlasmicRemoteChangeWatcher} from '@plasmicapp/watcher';
 import renderHydrogen from '@shopify/hydrogen/entry-server';
 
 import App from './App.server';
-import { PLASMIC } from './plasmic-init';
+import {PLASMIC} from './plasmic-init';
 
 export default renderHydrogen(App, () => {
   // Custom hook
 });
-if (process.env.NODE_ENV !== "production" && typeof window === "undefined") {
-  console.log("Subscribing to Plasmic changes...");
+if (process.env.NODE_ENV !== 'production' && typeof window === 'undefined') {
+  console.log('Subscribing to Plasmic changes...');
   const opts = PLASMIC.__internal.opts;
   const watcher = new PlasmicRemoteChangeWatcher({
     projects: opts.projects,
@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== "production" && typeof window === "undefined") {
 
   const clearCache = (projectId) => {
     console.log(
-      `Detected update to ${projectId}; clearing cache: ${new Date().toISOString()}`
+      `Detected update to ${projectId}; clearing cache: ${new Date().toISOString()}`,
     );
     PLASMIC.clearCache();
   };
@@ -32,6 +32,6 @@ if (process.env.NODE_ENV !== "production" && typeof window === "undefined") {
       if (!opts.preview) {
         clearCache(projectId);
       }
-    }
+    },
   });
 }

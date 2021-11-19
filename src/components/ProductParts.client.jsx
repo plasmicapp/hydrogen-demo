@@ -14,17 +14,13 @@ import {Link} from 'react-router-dom';
 
 export function ProductTitle({className}) {
   const product = useProduct();
-  return (
-    <div className={className}>{product?.title ?? "Product Title"}</div>
-  );
+  return <div className={className}>{product?.title ?? 'Product Title'}</div>;
 }
 
 export function ProductPrice({className, compareAt}) {
   const product = useProduct();
   const price = getPriceFloat(product, compareAt);
-  return (
-    <div className={className}>{price}</div>
-  );
+  return <div className={className}>{price}</div>;
 }
 
 export function ProductPriceDollars({className, compareAt}) {
@@ -56,7 +52,7 @@ export function ProductDescription({className}) {
   return <ProseHtml className={className} html={product?.descriptionHtml} />;
 }
 
-function getPriceFloat(product, compareAt=false) {
+function getPriceFloat(product, compareAt = false) {
   const variant = product?.selectedVariant ?? product?.variants?.[0];
   if (!variant) {
     return undefined;
@@ -162,8 +158,8 @@ function usePrimaryProductMedia() {
   }
   if (product.selectedVariant?.image) {
     return {
-      mediaContentType: "IMAGE",
-      image: product.selectedVariant.image
+      mediaContentType: 'IMAGE',
+      image: product.selectedVariant.image,
     };
   } else {
     return allImageMedias[0];
@@ -172,13 +168,13 @@ function usePrimaryProductMedia() {
 
 function useProductImageMedias() {
   const product = useProduct();
-  return (product?.media ?? []).filter(m => !!m.image);
+  return (product?.media ?? []).filter((m) => !!m.image);
 }
 
 function useSecondaryProductMedias() {
   const primaryMedia = usePrimaryProductMedia();
   const allImageMedias = useProductImageMedias();
-  return allImageMedias.filter(m => m.image.id !== primaryMedia?.image?.id);
+  return allImageMedias.filter((m) => m.image.id !== primaryMedia?.image?.id);
 }
 
 export function SecondaryProductMediaProvider({children}) {
