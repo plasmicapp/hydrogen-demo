@@ -12,7 +12,7 @@ It includes a recreation of a few pages from the original Hydrogen starter proje
 * A catch-all page, at `pages/plasmic/pages/[handle].server.jsx`.  Any additional page created in the Plasmic project will show up here.
 * A "Plasmic host" page, at `pages/plasmic-host.jsx`. Each artboard that shows up in the Plasmic studio is an iframe pointing at this page.  The page registers custom code components with Plasmic, and contains a placeholder where the Plasmic studio will insert the design for each artboard.  This page has some collection and product data hard-coded and fetched on the server. This page is only used for development, not for production.
 
-The Plasmic project is located at xxx.
+The Plasmic project is located at https://studio.plasmic.app/projects/jb6uzr5Zyd7sXx5pGeaPgg.
 
 ## Getting started
 

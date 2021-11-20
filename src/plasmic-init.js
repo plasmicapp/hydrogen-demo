@@ -26,9 +26,9 @@ import {ProductsList} from './components/ProductsList.client';
 export const PLASMIC = initPlasmicLoader({
   projects: [
     {
-      id: '38Xy6Etsio2WofKtc3VeyW',
+      id: 'jb6uzr5Zyd7sXx5pGeaPgg',
       token:
-        'NNQaUIsOysgvICJrNGLEUq53Jl0SmOE0xy8L2Ti18qnndWpCGnPrCi2vEl89bgBVGt26HlrLi2bZQclOZTA',
+        'qPxedO3prZVYpZcP18gYQuLPEcd7UPFl3DGyDH0IvtcCWxUENdzIS01QlMUdrbzNinn5VKPWe6wS7DpBhVg',
     },
   ],
 
