@@ -2,9 +2,12 @@ import {repeatedElement} from '@plasmicapp/host';
 import {ProductProvider, flattenConnection} from '@shopify/hydrogen/client';
 import {useProducts} from '../hooks/data-contexts.client';
 
+/**
+ * Reads the Products from the current context, and repeatedly renders
+ * children for each product, wrapped in a ProductProvider.
+ */
 export function ProductsList({children}) {
   const products = useProducts();
-
   return (
     <>
       {(products ?? []).map((product, i) => (

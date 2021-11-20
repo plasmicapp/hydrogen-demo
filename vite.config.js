@@ -9,7 +9,6 @@ export default defineConfig({
   optimizeDeps: {include: ['@headlessui/react']},
   clearScreen: false,
   server: {
-    // yup
-    hmr: false,
+    hmr: false
   },
 });

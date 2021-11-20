@@ -1,13 +1,11 @@
-import {PlasmicCanvasHost} from '@plasmicapp/host';
-import {QueryProvider} from '@shopify/hydrogen/client';
-import {PLASMIC} from '../plasmic-init';
+import { PlasmicCanvasHost } from '@plasmicapp/host';
+import { PLASMIC } from '../plasmic-init';
 
+/**
+ * Wrapper around <PlasmicCanvasHost /> as a client component
+ */
 export function PlasmicClientCanvasHost() {
   return (
-    PLASMIC && (
-      <QueryProvider>
-        <PlasmicCanvasHost />
-      </QueryProvider>
-    )
+    PLASMIC && <PlasmicCanvasHost />
   );
 }

@@ -13,7 +13,7 @@ export default function App({...serverState}) {
   const pages = import.meta.globEager('./pages/**/*.server.[jt]sx');
 
   return (
-    <Suspense fallback={<LoadingFallback />}>
+    <Suspense fallback={null}>
       <ShopifyServerProvider shopifyConfig={shopifyConfig} {...serverState}>
         <CartProvider>
           <DefaultSeo />

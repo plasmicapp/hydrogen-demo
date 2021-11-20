@@ -1,60 +1,34 @@
+import React from "react";
 import {
-  flattenConnection,
-  ProductProvider,
-  ProductProviderFragment,
+  useServerState
 } from '@shopify/hydrogen/client';
-import {useClientShopQuery} from '../hooks/useClientShopQuery.client';
-import gql from 'graphql-tag';
+import {PlasmicCanvasContext} from '@plasmicapp/host';
 
+/**
+ * TODO: The goal of this component was to use setServerState() to ask
+ * the PlasmicHostPage for some data. But we were seeing incorrect responses
+ * when simultaneous requests are made :-/
+ */
 export function ProductDetailsLoader({productHandle, children}) {
-  const {data} = useClientShopQuery({
-    query: QUERY,
-    variables: {
-      handle: productHandle,
-      country: 'US',
-    },
-  });
-  console.log('PRODUCT DATA', data);
-  const product = data.product;
-  return (
-    <ProductProvider
-      product={product}
-      initialVariantId={flattenConnection(product.variants)[0]?.id}
-    >
-      {children}
-    </ProductProvider>
-  );
-}
+  return children;
+  const inEditor = React.useContext(PlasmicCanvasContext);
+  const {setServerState, serverState} = useServerState();
 
-const QUERY = gql`
-  query product(
-    $country: CountryCode
-    $handle: String!
-    $numProductMetafields: Int = 20
-    $numProductVariants: Int = 250
-    $numProductMedia: Int = 6
-    $numProductVariantMetafields: Int = 10
-    $numProductVariantSellingPlanAllocations: Int = 0
-    $numProductSellingPlanGroups: Int = 0
-    $numProductSellingPlans: Int = 0
-  ) @inContext(country: $country) {
-    product: product(handle: $handle) {
-      id
-      vendor
-      seo {
-        title
-        description
-      }
-      images(first: 1) {
-        edges {
-          node {
-            url
-          }
-        }
-      }
-      ...ProductProviderFragment
+  React.useEffect(() => {
+    if (!inEditor) {
+      // If we are not in a Plasmic artboard, then we are being used For Realz
+      // in a production page.  This component is a no-op; the real data 
+      // to load is determined by the page component.
+      return;
     }
-  }
 
-  ${ProductProviderFragment}
-`;
+    // Otherwise, if we are in a Plasmic artboard, then we setServerState() to
+    // tell the PlasmicHostPage what data we need.
+    const opts = {handle: productHandle};
+    if (serverState.dataType !== "product" || JSON.stringify(serverState.dataOpts) !== JSON.stringify(opts)) {
+      setServerState({dataType: "product", dataOpts: {handle: productHandle}});
+    }
+  }, [inEditor, setServerState, productHandle]);
+  
+  return children;
+}

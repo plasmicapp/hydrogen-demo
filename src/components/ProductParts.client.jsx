@@ -1,28 +1,38 @@
+/**
+ * Custom code components for rendering various parts of a Product
+ */
+import { repeatedElement } from '@plasmicapp/host';
+import { MediaFile, useProduct } from '@shopify/hydrogen/client';
 import React from 'react';
-import {repeatedElement} from '@plasmicapp/host';
-import {useProduct, Image, MediaFile} from '@shopify/hydrogen/client';
+import { Link } from 'react-router-dom';
 import {
-  ProductMediaContext,
-  ProductOptionContext,
-  ProductOptionValueContext,
+  ProductMediaProvider, ProductOptionProvider, ProductOptionValueProvider,
   useProductMedia,
   useProductOption,
-  useProductOptionValue,
+  useProductOptionValue
 } from '../hooks/data-contexts.client';
-import {ProseHtml} from './ProseHtml';
-import {Link} from 'react-router-dom';
+import { ProseHtml } from './ProseHtml.client';
 
+/**
+ * Renders product title
+ */
 export function ProductTitle({className}) {
   const product = useProduct();
   return <div className={className}>{product?.title ?? 'Product Title'}</div>;
 }
 
+/**
+ * Renders product price
+ */
 export function ProductPrice({className, compareAt}) {
   const product = useProduct();
   const price = getPriceFloat(product, compareAt);
   return <div className={className}>{price}</div>;
 }
 
+/**
+ * Renders dollars part of product price
+ */
 export function ProductPriceDollars({className, compareAt}) {
   const product = useProduct();
   const price = getPriceFloat(product, compareAt);
@@ -30,6 +40,10 @@ export function ProductPriceDollars({className, compareAt}) {
   return <div className={className}>{dollars}</div>;
 }
 
+
+/**
+ * Renders cents part of product price
+ */
 export function ProductPriceCents({className, compareAt}) {
   const product = useProduct();
   const price = getPriceFloat(product, compareAt);
@@ -38,19 +52,6 @@ export function ProductPriceCents({className, compareAt}) {
   return <div className={className}>{`00${cents}`.slice(-2)}</div>;
 }
 
-export function VisibleIfHasCompareAtPrice({children}) {
-  const product = useProduct();
-  const variant = product?.selectedVariant ?? product?.variants?.[0];
-  if (variant && !!variant.compareAtPriceV2) {
-    return children;
-  }
-  return null;
-}
-
-export function ProductDescription({className}) {
-  const product = useProduct();
-  return <ProseHtml className={className} html={product?.descriptionHtml} />;
-}
 
 function getPriceFloat(product, compareAt = false) {
   const variant = product?.selectedVariant ?? product?.variants?.[0];
@@ -65,6 +66,26 @@ function getPriceFloat(product, compareAt = false) {
   return parseFloat(priceV2.amount);
 }
 
+/**
+ * Renders the content if product has a compareAt price
+ */
+export function VisibleIfHasCompareAtPrice({children}) {
+  const product = useProduct();
+  const variant = product?.selectedVariant ?? product?.variants?.[0];
+  if (variant && !!variant.compareAtPriceV2) {
+    return children;
+  }
+  return null;
+}
+
+/**
+ * Renders product descriptionHtml
+ */
+export function ProductDescription({className}) {
+  const product = useProduct();
+  return <ProseHtml className={className} html={product?.descriptionHtml} />;
+}
+
 export function ProductLink({className, children}) {
   const product = useProduct();
   return (
@@ -74,6 +95,10 @@ export function ProductLink({className, children}) {
   );
 }
 
+/**
+ * Repeatedly renders children once for each product option in the current
+ * product, wrapped in the ProductOption context.
+ */
 export function ProductOptionsProvider({children}) {
   const product = useProduct();
   const options = product?.options ?? [
@@ -85,33 +110,43 @@ export function ProductOptionsProvider({children}) {
   return (
     <>
       {options.map((option, i) => (
-        <ProductOptionContext.Provider key={option.name} value={option}>
+        <ProductOptionProvider key={option.name} option={option}>
           {repeatedElement(i === 0, children)}
-        </ProductOptionContext.Provider>
+        </ProductOptionProvider>
       ))}
     </>
   );
 }
 
+/**
+ * Renders contextual product option name
+ */
 export function ProductOptionName({className}) {
   const option = useProductOption();
   return <div className={className}>{option?.name ?? 'Option'}</div>;
 }
 
+/**
+ * Repeatedly renders children once for each product option value in
+ * the current context, wrapped in a ProductOptionValue context.
+ */
 export function ProductOptionValuesProvider({children}) {
   const option = useProductOption();
   const values = option?.values ?? ['Option1', 'Option2'];
   return (
     <>
       {values.map((value, i) => (
-        <ProductOptionValueContext.Provider key={value} value={value}>
+        <ProductOptionValueProvider key={value} value={value}>
           {repeatedElement(i === 0, children)}
-        </ProductOptionValueContext.Provider>
+        </ProductOptionValueProvider>
       ))}
     </>
   );
 }
 
+/**
+ * Wraps around a toggle button for toggling a specific option value
+ */
 export function ProductOptionValueCheckboxWrapper({children}) {
   const product = useProduct();
   const selectedOptions = product?.selectedOptions ?? {};
@@ -128,6 +163,9 @@ export function ProductOptionValueCheckboxWrapper({children}) {
   }
 }
 
+/**
+ * Renders contextual product media
+ */
 export function ProductMedia({className}) {
   const media = useProductMedia();
   if (!media) {
@@ -141,12 +179,15 @@ export function ProductMedia({className}) {
   return <MediaFile tabIndex="0" media={media} />;
 }
 
+/**
+ * Provides the primary media for the contextual product
+ */
 export function PrimaryProductMediaProvider({children}) {
   const primaryMedia = usePrimaryProductMedia();
   return (
-    <ProductMediaContext.Provider value={primaryMedia}>
+    <ProductMediaProvider media={primaryMedia}>
       {children}
-    </ProductMediaContext.Provider>
+    </ProductMediaProvider>
   );
 }
 
@@ -177,14 +218,18 @@ function useSecondaryProductMedias() {
   return allImageMedias.filter((m) => m.image.id !== primaryMedia?.image?.id);
 }
 
+/**
+ * Repeatedly renders children for each secondary product media for the
+ * contextual product, wrapped in ProductMedia context.
+ */
 export function SecondaryProductMediaProvider({children}) {
   const secondaryMedia = useSecondaryProductMedias();
   return (
     <>
       {secondaryMedia.map((media, i) => (
-        <ProductMediaContext.Provider value={media} key={i}>
+        <ProductMediaProvider media={media} key={i}>
           {repeatedElement(i === 0, children)}
-        </ProductMediaContext.Provider>
+        </ProductMediaProvider>
       ))}
     </>
   );

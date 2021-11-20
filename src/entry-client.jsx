@@ -1,5 +1,6 @@
 import renderHydrogen from '@shopify/hydrogen/entry-client';
 import {ShopifyProvider} from '@shopify/hydrogen/client';
+import "./components/ProseHtml.css";
 
 import shopifyConfig from '../shopify.config';
 

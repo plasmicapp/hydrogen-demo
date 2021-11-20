@@ -31,6 +31,12 @@ export const PLASMIC = initPlasmicLoader({
         'NNQaUIsOysgvICJrNGLEUq53Jl0SmOE0xy8L2Ti18qnndWpCGnPrCi2vEl89bgBVGt26HlrLi2bZQclOZTA',
     },
   ],
+
+  // By default, Plasmic always renders the latest published content.
+  // If instead you want to see the latest _unpublished_ content, you
+  // can turn on preview here. Note that this is much slower, and should
+  // only be used for development not production.
+  preview: false
 });
 
 PLASMIC.registerComponent(ProductsList, {

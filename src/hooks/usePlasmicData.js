@@ -1,6 +1,9 @@
 import {useQuery} from '@shopify/hydrogen';
 import {PLASMIC} from '../plasmic-init';
 
+/**
+ * Fetches Plasmic component data for `specs`
+ */
 export function usePlasmicData(specs) {
   return useQuery(
     `usePlasmicData-${JSON.stringify(specs)}`,
