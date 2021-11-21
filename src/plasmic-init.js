@@ -36,7 +36,7 @@ export const PLASMIC = initPlasmicLoader({
   // If instead you want to see the latest _unpublished_ content, you
   // can turn on preview here. Note that this is much slower, and should
   // only be used for development not production.
-  preview: false
+  preview: true,
 });
 
 PLASMIC.registerComponent(ProductsList, {
