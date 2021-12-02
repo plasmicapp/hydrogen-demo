@@ -15,7 +15,7 @@ export default function HomePage({response}) {
   const {data: plasmicData} = usePlasmicData([`/home`]);
 
   // Fetch the featured collection, which is used by the home page component
-  const {data: collectionData} = useCollectionData({handle: "freestyle-collection", count: 3});
+  const {data: collectionData} = useCollectionData({handle: "freestyle-collection", count: 4});
 
   response.cache(PLASMIC_PAGE_CACHE_CONFIG);
   return (

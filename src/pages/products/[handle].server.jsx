@@ -39,6 +39,7 @@ const QUERY = gql`
     $numProductVariantSellingPlanAllocations: Int = 0
     $numProductSellingPlanGroups: Int = 0
     $numProductSellingPlans: Int = 0
+    $includeReferenceMetafieldDetails: Boolean = true
   ) @inContext(country: $country) {
     product: product(handle: $handle) {
       id

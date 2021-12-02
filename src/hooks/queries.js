@@ -17,6 +17,7 @@ export const COLLECTION_QUERY = gql`
     $numProductVariantSellingPlanAllocations: Int = 0
     $numProductSellingPlanGroups: Int = 0
     $numProductSellingPlans: Int = 0
+    $includeReferenceMetafieldDetails: Boolean = true
   ) @inContext(country: $country) {
     collection(handle: $handle) {
       id
@@ -60,6 +61,7 @@ export const PRODUCT_DETAILS_QUERY = gql`
     $numProductVariantSellingPlanAllocations: Int = 0
     $numProductSellingPlanGroups: Int = 0
     $numProductSellingPlans: Int = 0
+    $includeReferenceMetafieldDetails: Boolean = true
   ) @inContext(country: $country) {
     product: product(handle: $handle) {
       id
