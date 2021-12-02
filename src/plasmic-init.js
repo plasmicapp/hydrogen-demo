@@ -3,32 +3,29 @@ import {
   CollectionDescription,
   CollectionTitle,
 } from './components/CollectionParts.client';
-import {ProductCollectionLoader} from './components/ProductCollectionLoader.client';
-import {ProductDetailsLoader} from './components/ProductDetailsLoader.client';
 import {
-  PrimaryProductMediaProvider,
   ProductDescription,
   ProductLink,
   ProductMedia,
+  ProductMediaRepeater,
   ProductOptionName,
-  ProductOptionsProvider,
-  ProductOptionValueCheckboxWrapper,
-  ProductOptionValuesProvider,
+  ProductOptionRepeater,
+  ProductOptionValueToggleWrapper,
+  ProductOptionValueRepeater,
   ProductPrice,
   ProductPriceCents,
   ProductPriceDollars,
   ProductTitle,
-  SecondaryProductMediaProvider,
   VisibleIfHasCompareAtPrice,
 } from './components/ProductParts.client';
-import {ProductsList} from './components/ProductsList.client';
+import {ProductRepeater} from './components/ProductsList.client';
 
 export const PLASMIC = initPlasmicLoader({
   projects: [
     {
-      id: 'jb6uzr5Zyd7sXx5pGeaPgg',
+      id: '411uuq2ERfYjd7WEGqb5iw',
       token:
-        'qPxedO3prZVYpZcP18gYQuLPEcd7UPFl3DGyDH0IvtcCWxUENdzIS01QlMUdrbzNinn5VKPWe6wS7DpBhVg',
+        '0RQiEsIhvTCAqB8gOHKJ6714OD3DoRlvQWITcHY9dUwJwM9qSnL7oJHjNwrw4uyGTNjs7vyUBhQb9x1BR8DJg',
     },
   ],
 
@@ -36,52 +33,25 @@ export const PLASMIC = initPlasmicLoader({
   // If instead you want to see the latest _unpublished_ content, you
   // can turn on preview here. Note that this is much slower, and should
   // only be used for development not production.
-  preview: true,
+  preview: false,
+
+  // Always fetch a new design so that when cache from useQuery expires,
+  // we will re-issue the query instead of using locally-cached content
+  alwaysFresh: true,
 });
 
-PLASMIC.registerComponent(ProductsList, {
-  name: 'ProductsList',
-  props: {
-    children: 'slot',
-  },
-});
+export const PLASMIC_PAGE_CACHE_CONFIG = {
+  // Cache the page for 60s
+  maxAge: 60,
 
-PLASMIC.registerComponent(ProductCollectionLoader, {
-  name: 'ProductCollectionLoader',
-  props: {
-    collectionHandle: {
-      type: 'choice',
-      options: ['freestyle-collection', 'backcountry-collection'],
-      defaultValue: 'freestyle-collection',
-    },
-    count: {
-      type: 'number',
-      defaultValue: 6,
-    },
-    children: {
-      type: 'slot',
-      defaultValue: [
-        {
-          type: 'component',
-          name: 'ProductsList',
-        },
-      ],
-    },
-  },
-});
+  // Serve stale page for 24 hours
+  staleWhileRevalidate: 24 * 60 * 60
+};
 
-PLASMIC.registerComponent(ProductDetailsLoader, {
-  name: 'ProductDetailsLoader',
+PLASMIC.registerComponent(ProductRepeater, {
+  name: 'ProductRepeater',
+  description: 'Repeats content once per Product in the current collection',
   props: {
-    productHandle: {
-      type: 'choice',
-      options: [
-        'mail-it-in-freestyle-snowboard',
-        'snowboard',
-        'the-full-stack',
-      ],
-      defaultValue: 'snowboard',
-    },
     children: 'slot',
   },
 });
@@ -114,6 +84,7 @@ PLASMIC.registerComponent(ProductPrice, {
 
 PLASMIC.registerComponent(VisibleIfHasCompareAtPrice, {
   name: 'VisibleIfHasCompareAtPrice',
+  description: 'Makes the content visible if the current Product has a "compare at" price',
   props: {
     children: 'slot',
   },
@@ -121,18 +92,21 @@ PLASMIC.registerComponent(VisibleIfHasCompareAtPrice, {
 
 PLASMIC.registerComponent(ProductDescription, {
   name: 'ProductDescription',
+  description: 'Description for the current Product',
   props: {},
 });
 
 PLASMIC.registerComponent(ProductLink, {
   name: 'ProductLink',
+  description: 'Creates a Link to the current Product',
   props: {
     children: 'slot',
   },
 });
 
-PLASMIC.registerComponent(ProductOptionsProvider, {
-  name: 'ProductOptionsProvider',
+PLASMIC.registerComponent(ProductOptionRepeater, {
+  name: 'ProductOptionRepeater',
+  description: 'Repeats content once per product option',
   props: {
     children: 'slot',
   },
@@ -143,15 +117,17 @@ PLASMIC.registerComponent(ProductOptionName, {
   props: {},
 });
 
-PLASMIC.registerComponent(ProductOptionValuesProvider, {
-  name: 'ProductOptionValuesProvider',
+PLASMIC.registerComponent(ProductOptionValueRepeater, {
+  name: 'ProductOptionValueRepeater',
+  description: 'Repeats content once per product option value',
   props: {
     children: 'slot',
   },
 });
 
-PLASMIC.registerComponent(ProductOptionValueCheckboxWrapper, {
-  name: 'ProductOptionValueCheckboxWrapper',
+PLASMIC.registerComponent(ProductOptionValueToggleWrapper, {
+  name: 'ProductOptionValueToggleWrapper',
+  description: 'Adds behavior to the wrapped content to activate the current option value',
   props: {
     children: 'slot',
   },
@@ -159,29 +135,37 @@ PLASMIC.registerComponent(ProductOptionValueCheckboxWrapper, {
 
 PLASMIC.registerComponent(ProductMedia, {
   name: 'ProductMedia',
+  description: 'Renders the current product media; defaults to the media of the selected variant, or the first media.',
   props: {},
 });
 
-PLASMIC.registerComponent(PrimaryProductMediaProvider, {
-  name: 'PrimaryProductMediaProvider',
+PLASMIC.registerComponent(ProductMediaRepeater, {
+  name: 'ProductMediaRepeater',
+  description: 'Repeats content for each of current product\'s media',
   props: {
-    children: 'slot',
-  },
-});
-
-PLASMIC.registerComponent(SecondaryProductMediaProvider, {
-  name: 'SecondaryProductMediaProvider',
-  props: {
-    children: 'slot',
-  },
+    children: {
+      type: "slot",
+      description: "Content will be repeated once per product media"
+    },
+    count: {
+      type: "number",
+      description: "Max number of product medias to use"
+    },
+    excludeFeatured: {
+      type: "boolean",
+      description: "If checked, excludes the featured media, which is the media of the selected product variant, or the first media."
+    },
+  }
 });
 
 PLASMIC.registerComponent(CollectionTitle, {
   name: 'CollectionTitle',
+  description: 'Displays the current Collection name',
   props: {},
 });
 
 PLASMIC.registerComponent(CollectionDescription, {
   name: 'CollectionDescription',
+  description: 'Displays the current Collection description',
   props: {},
 });

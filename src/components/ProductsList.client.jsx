@@ -6,7 +6,7 @@ import {useProducts} from '../hooks/data-contexts.client';
  * Reads the Products from the current context, and repeatedly renders
  * children for each product, wrapped in a ProductProvider.
  */
-export function ProductsList({children}) {
+export function ProductRepeater({children}) {
   const products = useProducts();
   return (
     <>

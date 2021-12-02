@@ -99,12 +99,16 @@ export function ProductLink({className, children}) {
  * Repeatedly renders children once for each product option in the current
  * product, wrapped in the ProductOption context.
  */
-export function ProductOptionsProvider({children}) {
+export function ProductOptionRepeater({children}) {
   const product = useProduct();
   const options = product?.options ?? [
     {
-      name: 'Fake Option',
-      values: ['Option1', 'Option2'],
+      name: 'Fake Option 1',
+      values: ['Value 1', 'Value 2'],
+    },
+    {
+      name: 'Fake Option 2',
+      values: ['Value A', 'Value B'],
     },
   ];
   return (
@@ -130,7 +134,7 @@ export function ProductOptionName({className}) {
  * Repeatedly renders children once for each product option value in
  * the current context, wrapped in a ProductOptionValue context.
  */
-export function ProductOptionValuesProvider({children}) {
+export function ProductOptionValueRepeater({children}) {
   const option = useProductOption();
   const values = option?.values ?? ['Option1', 'Option2'];
   return (
@@ -147,7 +151,7 @@ export function ProductOptionValuesProvider({children}) {
 /**
  * Wraps around a toggle button for toggling a specific option value
  */
-export function ProductOptionValueCheckboxWrapper({children}) {
+export function ProductOptionValueToggleWrapper({children}) {
   const product = useProduct();
   const selectedOptions = product?.selectedOptions ?? {};
   const option = useProductOption();
@@ -155,6 +159,7 @@ export function ProductOptionValueCheckboxWrapper({children}) {
   if (React.Children.count(children) === 1) {
     return React.cloneElement(React.Children.only(children), {
       children: value,
+      value: value,
       isChecked: option ? selectedOptions[option.name] === value : false,
       onChange: () => product?.setSelectedOption?.(option?.name, value),
     });
@@ -167,7 +172,9 @@ export function ProductOptionValueCheckboxWrapper({children}) {
  * Renders contextual product media
  */
 export function ProductMedia({className}) {
-  const media = useProductMedia();
+  const curMedia = useProductMedia();
+  const primaryMedia = usePrimaryProductMedia();
+  const media = curMedia ?? primaryMedia;
   if (!media) {
     return (
       <img
@@ -176,18 +183,30 @@ export function ProductMedia({className}) {
       />
     );
   }
-  return <MediaFile tabIndex="0" media={media} />;
+  return <MediaFile media={media} />;
 }
 
-/**
- * Provides the primary media for the contextual product
- */
-export function PrimaryProductMediaProvider({children}) {
-  const primaryMedia = usePrimaryProductMedia();
+export function ProductMediaRepeater({children, count, excludeFeatured}) {
+  const product = useProduct();
+  let medias = useProductImageMedias();
+  if (excludeFeatured) {
+    const featuredMedia = product?.selectedVariant?.image || medias?.[0]?.image;
+    if (featuredMedia) {
+      const featuredMediaSrc = featuredMedia.url.split('?')[0];
+      medias = medias.filter(media => !media.image?.url.includes(featuredMediaSrc));
+    }
+  }
+  if (count != null) {
+    medias = medias.slice(0, count);
+  }
   return (
-    <ProductMediaProvider media={primaryMedia}>
-      {children}
-    </ProductMediaProvider>
+    <>
+      {medias.map((media, i) => (
+        <ProductMediaProvider key={i} media={media}>
+          {repeatedElement(i === 0, children)}
+        </ProductMediaProvider>
+      ))}
+    </>
   );
 }
 
@@ -210,27 +229,4 @@ function usePrimaryProductMedia() {
 function useProductImageMedias() {
   const product = useProduct();
   return (product?.media ?? []).filter((m) => !!m.image);
-}
-
-function useSecondaryProductMedias() {
-  const primaryMedia = usePrimaryProductMedia();
-  const allImageMedias = useProductImageMedias();
-  return allImageMedias.filter((m) => m.image.id !== primaryMedia?.image?.id);
-}
-
-/**
- * Repeatedly renders children for each secondary product media for the
- * contextual product, wrapped in ProductMedia context.
- */
-export function SecondaryProductMediaProvider({children}) {
-  const secondaryMedia = useSecondaryProductMedias();
-  return (
-    <>
-      {secondaryMedia.map((media, i) => (
-        <ProductMediaProvider media={media} key={i}>
-          {repeatedElement(i === 0, children)}
-        </ProductMediaProvider>
-      ))}
-    </>
-  );
 }

@@ -1,5 +1,5 @@
 import {useQuery} from '@shopify/hydrogen';
-import {PLASMIC} from '../plasmic-init';
+import {PLASMIC, PLASMIC_PAGE_CACHE_CONFIG} from '../plasmic-init';
 
 /**
  * Fetches Plasmic component data for `specs`
@@ -9,9 +9,7 @@ export function usePlasmicData(specs) {
     `usePlasmicData-${JSON.stringify(specs)}`,
     async () => PLASMIC.fetchComponentData(...specs),
     {
-      cache: {
-        maxAge: 1,
-      },
+      cache: PLASMIC_PAGE_CACHE_CONFIG
     },
   );
 }
@@ -21,9 +19,7 @@ export function useMaybePlasmicData(specs) {
     `useMaybePlasmicData-${JSON.stringify(specs)}`,
     async () => PLASMIC.maybeFetchComponentData(...specs),
     {
-      cache: {
-        maxAge: 1,
-      },
+      cache: PLASMIC_PAGE_CACHE_CONFIG
     },
   );
 }

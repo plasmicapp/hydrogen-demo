@@ -6,8 +6,9 @@ import {
 } from '../../../components/PlasmicClientComponent.client';
 import { useProductDetailsData } from '../../../hooks/queries';
 import { flattenConnection, ProductProvider } from '@shopify/hydrogen';
+import { PLASMIC_PAGE_CACHE_CONFIG } from '../../../plasmic-init';
 
-export default function ProductPage() {
+export default function ProductPage({response}) {
   const {handle} = useParams();
 
   // Fetch the design from Plasmic
@@ -16,6 +17,7 @@ export default function ProductPage() {
   // Fetch the product details from Shopify
   const {data: productData} = useProductDetailsData({handle, country: "US"});
   const product = productData.product;
+  response.cache(PLASMIC_PAGE_CACHE_CONFIG);
   return (
     <PlasmicClientRoot data={plasmicData}>
       <ProductProvider 

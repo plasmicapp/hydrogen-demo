@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.4.1",
-    "@plasmicapp/loader-react": "^1.0.35",
+    "@plasmicapp/loader-react": "^1.0.38",
     "@plasmicapp/watcher": "^1.0.21",
     "@shopify/hydrogen": "^0.6.4",
     "compression": "^1.7.4",
