@@ -1,63 +1,35 @@
-import {useShopQuery, ProductProviderFragment} from '@shopify/hydrogen';
 import {useParams} from 'react-router-dom';
-import gql from 'graphql-tag';
+import {usePlasmicData} from '../../hooks/usePlasmicData';
+import {
+  PlasmicClientComponent,
+  PlasmicClientRoot,
+} from '../../components/PlasmicClientComponent.client';
+import { useProductDetailsData } from '../../hooks/queries';
+import { flattenConnection, ProductProvider } from '@shopify/hydrogen';
+import { PLASMIC_PAGE_CACHE_CONFIG } from '../../plasmic-init';
+import Seo from '../../components/Seo.client';
 
-import ProductDetails from '../../components/ProductDetails.client';
-import NotFound from '../../components/NotFound.server';
-import Layout from '../../components/Layout.server';
-
-export default function Product({country = {isoCode: 'US'}}) {
+export default function ProductPage({response}) {
   const {handle} = useParams();
 
-  const {data} = useShopQuery({
-    query: QUERY,
-    variables: {
-      country: country.isoCode,
-      handle,
-    },
-  });
+  // Fetch the design from Plasmic
+  const {data: plasmicData} = usePlasmicData([`ProductPage`]);
 
-  if (!data.product) {
-    return <NotFound />;
-  }
-
+  // Fetch the product details from Shopify
+  const {data: productData} = useProductDetailsData({handle, country: "US"});
+  const product = productData.product;
+  response.cache(PLASMIC_PAGE_CACHE_CONFIG);
   return (
-    <Layout>
-      <ProductDetails product={data.product} />
-    </Layout>
+    <PlasmicClientRoot data={plasmicData}>
+      <Seo shopName="Snowdevil" product={product} />
+      <ProductProvider 
+        product={product} 
+        initialVariantId={flattenConnection(product.variants)[0]?.id}
+      >
+        <PlasmicClientComponent
+          component={plasmicData.entryCompMetas[0].name}
+        />
+      </ProductProvider>
+    </PlasmicClientRoot>
   );
 }
-
-const QUERY = gql`
-  query product(
-    $country: CountryCode
-    $handle: String!
-    $numProductMetafields: Int = 20
-    $numProductVariants: Int = 250
-    $numProductMedia: Int = 6
-    $numProductVariantMetafields: Int = 10
-    $numProductVariantSellingPlanAllocations: Int = 0
-    $numProductSellingPlanGroups: Int = 0
-    $numProductSellingPlans: Int = 0
-    $includeReferenceMetafieldDetails: Boolean = true
-  ) @inContext(country: $country) {
-    product: product(handle: $handle) {
-      id
-      vendor
-      seo {
-        title
-        description
-      }
-      images(first: 1) {
-        edges {
-          node {
-            url
-          }
-        }
-      }
-      ...ProductProviderFragment
-    }
-  }
-
-  ${ProductProviderFragment}
-`;

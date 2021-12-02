@@ -1,33 +1,32 @@
-import {useParams} from 'react-router-dom';
-import {useShopQuery, RawHtml} from '@shopify/hydrogen';
-import gql from 'graphql-tag';
-
-import Layout from '../../components/Layout.server';
+import { useParams } from 'react-router-dom';
 import NotFound from '../../components/NotFound.server';
+import {
+  PlasmicClientComponent,
+  PlasmicClientRoot
+} from '../../components/PlasmicClientComponent.client';
+import { useMaybePlasmicData } from '../../hooks/usePlasmicData';
+import { PLASMIC_PAGE_CACHE_CONFIG } from '../../plasmic-init';
 
-export default function Page() {
+/**
+ * Catch-all page for /plasmic/*.  Note however that as a catch-all page, we 
+ * don't know what data is needed by this page, so we don't know what to fetch...
+ */
+export default function CatchallPage({response}) {
   const {handle} = useParams();
-  const {data} = useShopQuery({query: QUERY, variables: {handle}});
 
-  if (!data.pageByHandle) {
-    return <NotFound />;
+  // Fetch designs from Plasmic; trying to look for a page named /handle
+  // from Plasmic
+  const {data: plasmicData} = useMaybePlasmicData([`/${handle}`]);
+
+  if (!plasmicData) {
+    return <NotFound />
   }
 
-  const page = data.pageByHandle;
+  response.cache(PLASMIC_PAGE_CACHE_CONFIG);
 
   return (
-    <Layout>
-      <h1 className="text-2xl font-bold">{page.title}</h1>
-      <RawHtml string={page.body} className="prose mt-8" />
-    </Layout>
+    <PlasmicClientRoot data={plasmicData}>
+      <PlasmicClientComponent component={plasmicData.entryCompMetas[0].name} />
+    </PlasmicClientRoot>
   );
 }
-
-const QUERY = gql`
-  query PageDetails($handle: String!) {
-    pageByHandle(handle: $handle) {
-      title
-      body
-    }
-  }
-`;

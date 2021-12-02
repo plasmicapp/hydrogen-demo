@@ -89,7 +89,7 @@ export function ProductDescription({className}) {
 export function ProductLink({className, children}) {
   const product = useProduct();
   return (
-    <Link className={className} to={`/plasmic/products/${product?.handle}`}>
+    <Link className={className} to={`/products/${product?.handle}`}>
       {children}
     </Link>
   );
@@ -183,7 +183,7 @@ export function ProductMedia({className}) {
       />
     );
   }
-  return <MediaFile media={media} />;
+  return <MediaFile className={className} media={media} />;
 }
 
 export function ProductMediaRepeater({children, count, excludeFeatured}) {

@@ -53,6 +53,10 @@ PLASMIC.registerComponent(ProductRepeater, {
   description: 'Repeats content once per Product in the current collection',
   props: {
     children: 'slot',
+    count: {
+      type: "number",
+      description: "Repeat content for at most this many Products"
+    }
   },
 });
 
