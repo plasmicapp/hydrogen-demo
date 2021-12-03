@@ -3,6 +3,7 @@ import {
   CollectionDescription,
   CollectionTitle,
 } from './components/CollectionParts.client';
+import NavHeader from './components/NavHeader.client';
 import {
   ProductDescription,
   ProductLink,
@@ -173,3 +174,7 @@ PLASMIC.registerComponent(CollectionDescription, {
   description: 'Displays the current Collection description',
   props: {},
 });
+
+// Substitute NavHeader with our own version that includes logic for
+// opening the mobile menu
+PLASMIC.substituteComponent(NavHeader, "NavHeader");
