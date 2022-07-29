@@ -1,4 +1,8 @@
-# Plasmic-Hydrogen Demo
+# See updated Plasmic Hydrogen quickstart
+
+https://docs.plasmic.app/learn/hydrogen-quickstart/
+
+The following is an early prototype of Plasmic-Hydrogen integration, before Hydrogen was released.
 
 ## Overview
 
